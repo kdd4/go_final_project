@@ -2,21 +2,24 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
-	"github.com/go-chi/chi/v5"
+	"github.com/kdd4/go_final_project/pkg/db"
+	"github.com/kdd4/go_final_project/pkg/server"
 )
 
-const webDir = ".\\web\\"
+const webDir = "web"
 
 func main() {
-	r := chi.NewRouter()
+	err := db.Init("scheduler.db")
 
-	r.Handle("/*", http.FileServer(http.Dir(webDir)))
+	if err != nil {
+		fmt.Printf("Error of database initializing: %s\n", err.Error())
+		return
+	}
 
-	fmt.Println("RUN")
-	err := http.ListenAndServe(":7540", r)
-	if (err != nil) {
+	err = server.Run(webDir)
+
+	if err != nil {
 		fmt.Printf("Listen and serve server error: %s\n", err.Error())
 	}
 }

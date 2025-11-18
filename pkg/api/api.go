@@ -1,9 +1,40 @@
 package api
 
-import "github.com/go-chi/chi/v5"
+import (
+	"encoding/json"
+	"net/http"
+
+	"github.com/go-chi/chi/v5"
+)
 
 const dateFormat = "20060102"
 
 func Init(r chi.Router) {
 	r.Get("/nextdate", nextDateHandler)
+	
+	r.Post("/task", addTaskHandler)
+}
+
+
+func writeJson(w http.ResponseWriter, data any, code int) {
+	jsonData, err := json.Marshal(data)
+
+	if err != nil {
+		writeJsonError(w, err.Error())
+		return
+	}
+	
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(code)
+	w.Write(jsonData)
+}
+
+func writeJsonError(w http.ResponseWriter, err string) {
+	writeJson(
+		w, 
+		map[string]string{
+			"error": err,
+		}, 
+		http.StatusBadRequest,
+	)
 }

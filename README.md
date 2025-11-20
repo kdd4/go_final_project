@@ -44,7 +44,7 @@ docker run -d -p 7540:7540 server:v1
 go test ./tests
 ```
 
-В `tests/settings.go` использовать
+В `tests/settings.go` использовалось
 
 ```golang
 package tests

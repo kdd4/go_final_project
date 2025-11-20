@@ -32,14 +32,14 @@ func Init(dbFile string) error {
 	db, err = sql.Open("sqlite", dbFile)
 
 	if err != nil {
-		return fmt.Errorf("Error while opening database: %w", err)
+		return fmt.Errorf("error while opening database: %w", err)
 	}
 
 	if install {
 		_, err = db.Exec(schema)
 
 		if err != nil {
-			return fmt.Errorf("Error while creating database: %w", err)
+			return fmt.Errorf("error while creating database: %w", err)
 		}
 	}
 

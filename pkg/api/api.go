@@ -11,8 +11,14 @@ const dateFormat = "20060102"
 
 func Init(r chi.Router) {
 	r.Get("/nextdate", nextDateHandler)
-	
+	r.Get("/tasks", tasksHandler)
+	r.Get("/task", getTaskHandler)
+
 	r.Post("/task", addTaskHandler)
+	r.Put("/task", putTaskHandler)
+
+	r.Post("/task/done", doneTaskHandler)
+	r.Delete("/task", deleteTaskHandler)
 }
 
 

@@ -14,7 +14,7 @@ func Run(webDir string) error {
 	r.Handle("/*", http.FileServer(http.Dir(webDir)))
 
 	r.Route("/api", api.Init)
-
+ 
 	fmt.Println("RUN SERVER")
 
 	err := http.ListenAndServe(":7540", r)

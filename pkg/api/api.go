@@ -26,7 +26,7 @@ func writeJson(w http.ResponseWriter, data any, code int) {
 	jsonData, err := json.Marshal(data)
 
 	if err != nil {
-		writeJsonError(w, err.Error())
+		writeJsonError(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	
@@ -35,12 +35,12 @@ func writeJson(w http.ResponseWriter, data any, code int) {
 	w.Write(jsonData)
 }
 
-func writeJsonError(w http.ResponseWriter, err string) {
+func writeJsonError(w http.ResponseWriter, err string, code int) {
 	writeJson(
 		w, 
 		map[string]string{
 			"error": err,
 		}, 
-		http.StatusBadRequest,
+		code,
 	)
 }

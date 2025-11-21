@@ -52,26 +52,26 @@ func addTaskHandler(w http.ResponseWriter, req *http.Request) {
 	_, err := buf.ReadFrom(req.Body)
 
 	if err != nil {
-		writeJsonError(w, err.Error())
+		writeJsonError(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	err = json.Unmarshal(buf.Bytes(), &task)
 
 	if err != nil {
-		writeJsonError(w, err.Error())
+		writeJsonError(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	if task.Title == "" {
-		writeJsonError(w, "title is empty")
+		writeJsonError(w, "title is empty", http.StatusBadRequest)
 		return
 	}
 
 	err = checkDate(&task)
 
 	if err != nil {
-		writeJsonError(w, err.Error())
+		writeJsonError(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 

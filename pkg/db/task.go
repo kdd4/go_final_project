@@ -43,7 +43,7 @@ func GetTask(id string) (*Task, error) {
 	)
 
 	if err != nil {
-		return &Task{}, err
+		return nil, err
 	}
 
 	return &task, nil
@@ -141,7 +141,7 @@ func Tasks(limit int) ([]*Task, error) {
 	rows, err := db.Query(query, limit)
 
 	if err != nil {
-		return []*Task{}, err
+		return nil, err
 	}
 
 	tasks := make([]*Task, 0)
@@ -154,10 +154,20 @@ func Tasks(limit int) ([]*Task, error) {
 		)
 
 		if err != nil {
-			return []*Task{}, err
+			return nil, err
 		}
 
 		tasks = append(tasks, &task)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	err = rows.Close();
+
+	if err != nil {
+		return nil, err
 	}
 
 	return tasks, nil

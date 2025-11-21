@@ -17,9 +17,18 @@ func main() {
 		return
 	}
 
+	defer func(){
+		err = db.Close()
+
+		if err != nil {
+			fmt.Printf("Error while closing database connection: %s", err.Error())
+		}
+	}()
+
 	err = server.Run(webDir)
 
 	if err != nil {
 		fmt.Printf("Listen and serve server error: %s\n", err.Error())
+		return
 	}
 }
